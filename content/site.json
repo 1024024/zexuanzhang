@@ -10,11 +10,11 @@
   "posts": [
     {
       "id": "example-article",
-      "body": "This is an **example article** so you can see how posts look. Edit or delete it from the buttons above.\n\n## The short version\n\nA fracture fixation plate carries bending load across the fracture site. Screw heads that stand proud of the plate irritate soft tissue, so the holes are countersunk to let the head sit flush.\n\n## A quick bending check\n\nFor a rectangular plate section of width *b* and thickness *h*, the second moment of area is\n\n```\nI = b·h³ / 12\n```\n\nFor a 12 × 3.2 mm plate that gives about 32.8 mm⁴, which is why thickness, not width, dominates stiffness.\n\n> Write your articles in Markdown. Use “Import .md file” to bring in notes you've already written.\n",
+      "body": "This is an **example article** \n\n## The short version\n\nA fracture fixation plate carries bending load across the fracture site. Screw heads that stand proud of the plate irritate soft tissue, so the holes are countersunk to let the head sit flush.\n\n## A quick bending check\n\nFor a rectangular plate section of width *b* and thickness *h*, the second moment of area is\n\n```\nI = b·h³ / 12\n```\n\nFor a 12 × 3.2 mm plate that gives about 32.8 mm⁴, which is why thickness, not width, dominates stiffness.\n\n> Write your articles in Markdown. Use “Import .md file” to bring in notes you've already written.\n",
       "date": "2026-10-09",
       "example": true,
       "kind": "article",
-      "summary": "A short example post. Edit it or delete it once you've written your own.",
+      "summary": "A short example post.",
       "tags": [
         "mechanics",
         "implants"
@@ -34,7 +34,7 @@
     },
     {
       "id": "example-bone-plate",
-      "body": "An **example project** showing how CAD entries look. Replace it with your own: upload an STL or OBJ export, add renders, and attach the drawing PDF.\n\n- 84 × 12 × 3.2 mm plate, rounded ends\n- Six Ø3.8 mm clearance holes at 13 mm pitch with countersinks",
+      "body": "An **example project** showing how CAD entries look. \n\n- 84 × 12 × 3.2 mm plate, rounded ends\n- Six Ø3.8 mm clearance holes at 13 mm pitch with countersinks",
       "date": "2026-10-09",
       "drawing": null,
       "example": true,
