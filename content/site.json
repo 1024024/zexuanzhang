@@ -3,14 +3,14 @@
     "body": "## [Download my CV (PDF)](docs/ZexuanZhang__CV.pdf)\n\n Second-year Biomedical Engineering student at King's College London with research experience in brain–computer interfaces. Interested in neural engineering, medical devices and computational modelling.\n\n## Education\n\n### BEng Biomedical Engineering — King's College London\n*2025 – present · Year 2*\n\n- Modules include Mechanics for Biomedical Engineering and Computational Statistics\n- Extensive MATLAB-based data analysis across coursework\n\n## Research experience\n\n### Research Intern — Institute of Biomedical Engineering, Chinese Academy of Medical Sciences & Peking Union Medical College\n\n- Research on brain–computer interfaces and biomedical barriers\n- *Analysed physiological data from 25 participants to test whether transcutaneous electrical nerve stimulation(TENS) mitigates VR-induced motion sickness. Filtered electrocardiogram signals in MATLAB to derive heart rate, then modelled HR against VR stimulus intensity across TENS and control conditions. Results supported a positive correlation between TENS stimulus intensity and motion sickness mitigation.*\n\n## Leadership\n\n### PAL (Peer Assisted Learning) Leader — King's College London\n\n- Lead peer study sessions for students in the year below\n\n## Skills\n\n- **Computing:** C++(Basic), SQL(Basic), R(Basic)\n- **CAD:** *Fusion 360*\n- **Languages:** English(Proficient), Chinese(Native), German&French(Basic)\n",
     "discipline": "Biomedical Eng.",
     "email": "",
-    "link": "LinkedIn:www.linkedin.com/in/zexuan-zhang-luke1024",
+    "link": "www.linkedin.com/in/zexuan-zhang-luke1024",
     "name": "Zexuan(Luke) Zhang",
     "tagline": "BEng Biomedical Engineering · King's College London"
   },
   "posts": [
     {
       "id": "example-article",
-      "body": "This is an **example article** \n\n## The short version\n\nA fracture fixation plate carries bending load across the fracture site. Screw heads that stand proud of the plate irritate soft tissue, so the holes are countersunk to let the head sit flush.\n\n## A quick bending check\n\nFor a rectangular plate section of width *b* and thickness *h*, the second moment of area is\n\n```\nI = b·h³ / 12\n```\n\nFor a 12 × 3.2 mm plate that gives about 32.8 mm⁴, which is why thickness, not width, dominates stiffness.\n\n> Write your articles in Markdown. Use “Import .md file” to bring in notes you've already written.\n",
+      "body": "This is an **example article** \n\n## The short version\n\nA fracture fixation plate carries bending load across the fracture site. Screw heads that stand proud of the plate irritate soft tissue, so the holes are countersunk to let the head sit flush.\n\n## A quick bending check\n\nFor a rectangular plate section of width *b* and thickness *h*, the second moment of area is\n\n```\nI = b·h³ / 12\n```\n\nFor a 12 × 3.2 mm plate that gives about 32.8 mm⁴, which is why thickness, not width, dominates stiffness.\n\n> This is the markdown page \n",
       "date": "2026-10-09",
       "example": true,
       "kind": "article",
