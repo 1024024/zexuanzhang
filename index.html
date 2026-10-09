@@ -262,7 +262,8 @@ function renderHeader() {
     const b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = cv.email; b.title = "Copy email";
     b.onclick = () => navigator.clipboard?.writeText(cv.email).then(() => toast("Email copied"), () => { const r = document.createRange(); r.selectNodeContents(b); getSelection().removeAllRanges(); getSelection().addRange(r); });
     c.appendChild(b);
-  } else { c.textContent = "Not set"; c.className = "hint"; }
+  } else if (!cv.link) { c.textContent = "Not set"; }
+  c.className = (cv.email || cv.link) ? "" : "hint";
   if (cv.link) { const a = document.createElement("a"); a.href = cv.link; a.target = "_blank"; a.rel = "noopener"; a.textContent = cv.link.replace(/^https?:\/\//, ""); a.className = "mono"; a.style.fontSize = "var(--s-1)"; a.style.display = "block"; a.style.overflowWrap = "anywhere"; c.appendChild(a); }
 }
 
