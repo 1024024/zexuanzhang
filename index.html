@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Luke, BEng Biomedical Engineering at King's College London: CV, writing, programs and CAD portfolio.">
+<title>Luke — Engineering Notebook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: an engineering drawing sheet. A title-block header (name / discipline / institution / sheet index),
+   then one "sheet" per section on faint graph paper. Redline accent marks revisions and owner controls only. */
+:root{
+  --paper:#f2f4f3; --sheet:#fbfcfb; --ink:#17212b; --ink-2:#4a5866; --rule:#c9d1d6; --grid:rgba(31,93,140,.07);
+  --accent:#1f5d8c; --accent-ink:#ffffff; --redline:#c0412f; --code-bg:#eef1f2; --ok:#2f7a4f;
+  --f-display:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+  --f-body:"Literata",Georgia,"Times New Roman",serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --s-1:.8125rem; --s0:1rem; --s1:1.2rem; --s2:1.55rem; --s3:2.1rem; --s4:clamp(2.4rem,6vw,3.6rem);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0f151a; --sheet:#141b21; --ink:#dbe3e8; --ink-2:#93a2ae; --rule:#2c3943; --grid:rgba(120,170,210,.06);
+  --accent:#6fb0e0; --accent-ink:#0b1217; --redline:#ef7c66; --code-bg:#0c1216; --ok:#6cc392; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0f151a; --sheet:#141b21; --ink:#dbe3e8; --ink-2:#93a2ae; --rule:#2c3943; --grid:rgba(120,170,210,.06);
+  --accent:#6fb0e0; --accent-ink:#0b1217; --redline:#ef7c66; --code-bg:#0c1216; --ok:#6cc392; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;padding-inline:16px;padding-block:20px 48px}
+.wrap{max-width:1120px;margin:0 auto;display:grid;gap:20px}
+a{color:var(--accent)}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.15;margin:0}
+.label{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2)}
+.mono{font-family:var(--f-mono)}
+
+/* title block */
+.tb{border:1.5px solid var(--ink);background:var(--sheet);display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr) minmax(0,1fr);}
+.tb>div{padding:12px 14px;border-right:1px solid var(--ink);min-width:0}
+.tb>div:last-child{border-right:0}
+.tb-name{display:grid;gap:4px}
+.tb-name h1{font-size:var(--s4);font-weight:700;letter-spacing:-.01em}
+.tb-name p{margin:0;color:var(--ink-2);font-size:var(--s1)}
+.tb-cell{display:grid;align-content:space-between;gap:10px}
+.tb-cell .v{font-family:var(--f-display);font-size:var(--s1);font-weight:600;overflow-wrap:anywhere}
+.tb-cell .row{display:grid;gap:2px}
+.copy{border:0;background:none;padding:0;cursor:pointer;font-family:var(--f-mono);font-size:var(--s-1);color:var(--accent);text-align:left;overflow-wrap:anywhere}
+nav.sheets{grid-column:1/-1;border-top:1.5px solid var(--ink);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:0!important}
+nav.sheets button{border:0;border-right:1px solid var(--ink);background:none;padding:10px 12px;cursor:pointer;text-align:left;display:grid;gap:0}
+nav.sheets button:last-child{border-right:0}
+nav.sheets .n{font-family:var(--f-mono);font-size:.68rem;color:var(--ink-2);letter-spacing:.08em}
+nav.sheets .t{font-family:var(--f-display);font-size:var(--s1);font-weight:600}
+nav.sheets button[aria-selected="true"]{background:var(--ink);color:var(--sheet)}
+nav.sheets button[aria-selected="true"] .n{color:inherit;opacity:.75}
+@media (max-width:720px){
+  .tb{grid-template-columns:1fr 1fr}
+  .tb-name{grid-column:1/-1;border-right:0!important;border-bottom:1px solid var(--ink)}
+  nav.sheets{grid-template-columns:repeat(2,minmax(0,1fr))}
+  nav.sheets button:nth-child(2){border-right:0}
+  nav.sheets button:nth-child(-n+2){border-bottom:1px solid var(--ink)}
+}
+
+/* sheet */
+.sheet{border:1px solid var(--rule);background:var(--sheet);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;padding:clamp(16px,3vw,32px);display:grid;gap:22px;min-width:0}
+.sheet-head{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:end;justify-content:space-between;border-bottom:1.5px solid var(--ink);padding-bottom:10px}
+.sheet-head h2{font-size:var(--s3);font-weight:700}
+.tools{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--ink);background:var(--sheet);padding:6px 12px;cursor:pointer;font-family:var(--f-mono);font-size:var(--s-1);border-radius:2px;display:inline-flex;gap:6px;align-items:center}
+.btn:hover{background:var(--code-bg)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.red{border-color:var(--redline);color:var(--redline)}
+.btn.red.armed{background:var(--redline);color:var(--sheet)}
+.btn[disabled]{opacity:.5;cursor:default}
+.owner-tag{font-family:var(--f-mono);font-size:.68rem;color:var(--redline);border:1px solid var(--redline);padding:1px 6px;letter-spacing:.06em;text-transform:uppercase}
+
+/* prose */
+.prose{max-width:68ch;min-width:0}
+.prose h1,.prose h2{font-size:var(--s2);margin:1.4em 0 .4em;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.prose h3{font-size:var(--s1);margin:1.2em 0 .3em}
+.prose p,.prose ul,.prose ol{margin:.6em 0}
+.prose code{font-family:var(--f-mono);font-size:.86em;background:var(--code-bg);padding:1px 4px}
+.prose pre{background:var(--code-bg);border:1px solid var(--rule);padding:12px;overflow-x:auto;font-size:.85rem}
+.prose pre code{background:none;padding:0}
+.prose blockquote{border-left:3px solid var(--accent);margin:.8em 0;padding:.2em 1em;color:var(--ink-2)}
+.prose img{max-width:100%}
+.prose table{border-collapse:collapse;display:block;overflow-x:auto}
+.prose td,.prose th{border:1px solid var(--rule);padding:4px 8px}
+.prose>:first-child{margin-top:0}
+
+/* lists of entries */
+.entries{display:grid;gap:0;border-top:1px solid var(--rule)}
+.entry{display:grid;grid-template-columns:7.5rem minmax(0,1fr) auto;gap:4px 18px;padding:14px 4px;border-bottom:1px solid var(--rule);cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;text-align:left;align-items:baseline}
+.entry:hover{background:var(--code-bg)}
+.entry .d{font-family:var(--f-mono);font-size:var(--s-1);color:var(--ink-2);font-variant-numeric:tabular-nums}
+.entry .ti{font-family:var(--f-display);font-size:var(--s1);font-weight:600}
+.entry .su{grid-column:2;color:var(--ink-2);font-size:.95rem}
+.entry .go{font-family:var(--f-mono);color:var(--accent);font-size:var(--s-1)}
+@media (max-width:560px){.entry{grid-template-columns:minmax(0,1fr)}.entry .su{grid-column:1}.entry .go{display:none}}
+.empty{border:1px dashed var(--rule);padding:22px;color:var(--ink-2);display:grid;gap:6px;max-width:60ch}
+.empty strong{font-family:var(--f-display);font-size:var(--s1);color:var(--ink)}
+.back{justify-self:start}
+.meta{display:flex;flex-wrap:wrap;gap:6px 16px}
+.meta span{font-family:var(--f-mono);font-size:var(--s-1);color:var(--ink-2)}
+.example{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);border:1px dashed var(--ink-2);padding:1px 6px}
+
+/* program runner */
+.runner{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px}
+@media (max-width:820px){.runner{grid-template-columns:minmax(0,1fr)}}
+.pane{display:grid;gap:6px;min-width:0;align-content:start}
+.code{width:100%;min-height:340px;resize:vertical;font-family:var(--f-mono);font-size:.84rem;line-height:1.55;background:var(--code-bg);border:1px solid var(--rule);padding:12px;tab-size:4;white-space:pre;overflow:auto}
+.console{background:var(--code-bg);border:1px solid var(--rule);min-height:200px;max-height:420px;overflow:auto;padding:12px;font-family:var(--f-mono);font-size:.82rem;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+.console .err{color:var(--redline)}
+.console .sys{color:var(--ink-2)}
+.stdin{width:100%;min-height:64px;resize:vertical;font-family:var(--f-mono);font-size:.8rem;background:var(--code-bg);border:1px solid var(--rule);padding:8px}
+.turtle{border:1px solid var(--rule);background:#fff;max-width:100%;overflow:auto}
+.status{font-family:var(--f-mono);font-size:var(--s-1);color:var(--ink-2)}
+.status.run{color:var(--accent)} .status.ok{color:var(--ok)} .status.bad{color:var(--redline)}
+
+/* CAD */
+.cad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.cad-card{border:1px solid var(--ink);background:var(--sheet);display:grid;grid-template-rows:auto 1fr;cursor:pointer;text-align:left;padding:0;min-width:0}
+.cad-card:hover .ti{color:var(--accent)}
+.cad-thumb{aspect-ratio:4/3;max-width:100%;border-bottom:1px solid var(--ink);background:var(--code-bg);display:grid;place-items:center;overflow:hidden}
+.cad-thumb img{width:100%;height:100%;object-fit:cover}
+.cad-thumb .ph{font-family:var(--f-mono);font-size:var(--s-1);color:var(--ink-2);text-align:center;padding:10px}
+.cad-card .body{padding:10px 12px;display:grid;gap:4px;align-content:start}
+.cad-card .ti{font-family:var(--f-display);font-size:var(--s1);font-weight:600}
+.cad-card .su{font-size:.9rem;color:var(--ink-2)}
+.viewer{position:relative;border:1.5px solid var(--ink);background:var(--code-bg);aspect-ratio:16/10;max-width:100%;min-height:260px}
+.viewer canvas{display:block;width:100%!important;height:100%!important;touch-action:none}
+.viewer .hud{position:absolute;left:10px;bottom:8px;right:10px;display:flex;flex-wrap:wrap;gap:4px 14px;pointer-events:none}
+.viewer .hud span{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-2);background:var(--sheet);padding:1px 6px;border:1px solid var(--rule)}
+.viewer .msg{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-mono);font-size:var(--s-1);color:var(--ink-2);padding:20px;text-align:center}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.gallery figure{margin:0;border:1px solid var(--rule);background:var(--code-bg)}
+.gallery img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.cad-detail{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.cad-detail{grid-template-columns:minmax(0,1fr)}}
+.spec{border:1px solid var(--ink);display:grid}
+.spec div{display:grid;grid-template-columns:7rem minmax(0,1fr);border-bottom:1px solid var(--rule)}
+.spec div:last-child{border-bottom:0}
+.spec dt,.spec dd{margin:0;padding:6px 10px;min-width:0;overflow-wrap:anywhere}
+.spec dt{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-2);border-right:1px solid var(--rule)}
+.spec dd{font-family:var(--f-mono);font-size:var(--s-1);font-variant-numeric:tabular-nums}
+
+/* forms */
+form.ed{display:grid;gap:14px;max-width:820px}
+.field{display:grid;gap:4px;min-width:0}
+.field input[type=text],.field input[type=date],.field textarea,.field select{width:100%;border:1px solid var(--ink-2);background:var(--sheet);padding:8px 10px;border-radius:2px}
+.field textarea{min-height:120px;resize:vertical}
+.field textarea.tall{min-height:360px;font-family:var(--f-mono);font-size:.84rem;line-height:1.55}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.hint{font-size:.85rem;color:var(--ink-2)}
+.file-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--f-mono);font-size:.74rem;border:1px solid var(--rule);padding:2px 8px;display:inline-flex;gap:6px;align-items:center}
+.chip button{border:0;background:none;color:var(--redline);cursor:pointer;padding:0}
+.notice{font-family:var(--f-mono);font-size:var(--s-1);padding:8px 12px;border:1px solid var(--rule)}
+.notice.bad{border-color:var(--redline);color:var(--redline)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--sheet);font-family:var(--f-mono);font-size:var(--s-1);padding:8px 14px;border-radius:2px;z-index:10;max-width:calc(100% - 32px)}
+/* follow */
+.follow{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin-top:6px;min-height:2rem}
+.btn.following{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.follow details{font-family:var(--f-mono);font-size:var(--s-1)}
+.follow summary{cursor:pointer;color:var(--accent)}
+.follow ul{margin:6px 0 0;padding:8px 12px 8px 26px;border:1px solid var(--rule);background:var(--sheet);max-height:200px;overflow:auto}
+.new{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;background:var(--redline);color:var(--sheet);padding:1px 6px;vertical-align:middle;border-radius:2px}
+nav.sheets .cnt{display:inline-block;margin-left:6px;background:var(--redline);color:var(--sheet);border-radius:8px;padding:0 6px;font-size:.62rem}
+.news{border:1.5px solid var(--redline);background:var(--sheet);padding:12px 16px;display:grid;gap:8px}
+.news-head{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;align-items:baseline}
+.news-head strong{font-family:var(--f-display);font-size:var(--s1)}
+.news ul{margin:0;padding:0;list-style:none;display:grid;gap:2px}
+.news li button{border:0;background:none;padding:2px 0;cursor:pointer;text-align:left;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.news li button:hover .ti{color:var(--accent);text-decoration:underline}
+.news .k{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-2);text-transform:uppercase;letter-spacing:.07em;min-width:5.5rem}
+.news .ti{font-family:var(--f-display);font-weight:600}
+footer{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="tb" id="titleblock">
+    <div class="tb-name">
+      <span class="label">Drawn by</span>
+      <h1 id="hName">Luke</h1>
+      <p id="hTag">BEng Biomedical Engineering · King's College London</p>
+      <div class="follow" id="follow"></div>
+    </div>
+    <div class="tb-cell">
+      <div class="row"><span class="label">Discipline</span><span class="v" id="hDisc">Biomedical Eng.</span></div>
+      <div class="row"><span class="label">Rev.</span><span class="v mono" id="hRev" style="font-size:var(--s0)">—</span></div>
+    </div>
+    <div class="tb-cell">
+      <div class="row"><span class="label">Contact</span><span id="hContact" class="hint">Not set</span></div>
+      <div class="row"><span class="label">Units</span><span class="v mono" style="font-size:var(--s0)">mm · SI</span></div>
+    </div>
+    <nav class="sheets" role="tablist" aria-label="Sections">
+      <button role="tab" data-tab="cv"><span class="n">SHEET 1 / 4</span><span class="t">Curriculum Vitae</span></button>
+      <button role="tab" data-tab="writing"><span class="n">SHEET 2 / 4</span><span class="t">Writing</span></button>
+      <button role="tab" data-tab="programs"><span class="n">SHEET 3 / 4</span><span class="t">Programs</span></button>
+      <button role="tab" data-tab="cad"><span class="n">SHEET 4 / 4</span><span class="t">CAD Portfolio</span></button>
+    </nav>
+  </header>
+
+  <section id="news" class="news" hidden aria-label="New since your last visit"></section>
+  <main id="main" class="sheet" aria-live="polite"></main>
+
+  <footer>
+    <span id="fState">Loading…</span>
+    <span>Python runs in your browser · 3D models are mm unless noted</span>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+<script>
+(() => {
+"use strict";
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const md = s => { try { return DOMPurify.sanitize(marked.parse(String(s || ""))); } catch { return "<p>" + esc(s) + "</p>"; } };
+const today = () => new Date().toISOString().slice(0, 10);
+const blob = p => encodeURI(p);
+
+const S = {
+  db: null, assets: null, canEdit: false, ready: false, failed: false,
+  posts: [], cv: null,
+  uid: null, isOwner: false, userApi: null, followers: [], following: false, followSince: null, prevSeen: null, seenInit: false, newsDismissed: false,
+  tab: "cv", open: null, editing: null, // editing: {kind, id|null}
+};
+
+/* ---------- toast ---------- */
+let toastT;
+function toast(msg) {
+  let t = $(".toast"); if (!t) { t = document.createElement("div"); t.className = "toast"; t.setAttribute("role", "status"); document.body.appendChild(t); }
+  t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2600);
+}
+
+/* ---------- header ---------- */
+function renderHeader() {
+  const cv = S.cv || {};
+  $("#hName").textContent = cv.name || "Luke";
+  $("#hTag").textContent = cv.tagline || "BEng Biomedical Engineering · King's College London";
+  $("#hDisc").textContent = cv.discipline || "Biomedical Eng.";
+  const latest = S.posts.map(p => p.date || "").sort().pop();
+  $("#hRev").textContent = latest ? "Rev. " + latest : "—";
+  const c = $("#hContact"); c.innerHTML = "";
+  if (cv.email) {
+    const b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = cv.email; b.title = "Copy email";
+    b.onclick = () => navigator.clipboard?.writeText(cv.email).then(() => toast("Email copied"), () => { const r = document.createRange(); r.selectNodeContents(b); getSelection().removeAllRanges(); getSelection().addRange(r); });
+    c.appendChild(b);
+  } else { c.textContent = "Not set"; c.className = "hint"; }
+  if (cv.link) { const a = document.createElement("a"); a.href = cv.link; a.target = "_blank"; a.rel = "noopener"; a.textContent = cv.link.replace(/^https?:\/\//, ""); a.className = "mono"; a.style.fontSize = "var(--s-1)"; a.style.display = "block"; a.style.overflowWrap = "anywhere"; c.appendChild(a); }
+}
+
+/* ---------- routing ---------- */
+const TABS = ["cv", "writing", "programs", "cad"];
+function go(tab, open = null) {
+  stopViewer();
+  S.tab = tab; S.open = open; S.editing = null;
+  try { if (location.hash.slice(1) !== tab) history.replaceState(null, "", "#" + tab); } catch {}
+  document.querySelectorAll("nav.sheets button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === tab)));
+  render(); window.scrollTo({ top: 0 });
+}
+document.querySelectorAll("nav.sheets button").forEach(b => b.onclick = () => go(b.dataset.tab));
+addEventListener("hashchange", () => { const t = location.hash.slice(1); if (TABS.includes(t) && t !== S.tab) go(t); });
+
+function head(title, label, tools = "") {
+  return `<div class="sheet-head"><div><span class="label">${label}</span><h2>${esc(title)}</h2></div><div class="tools">${tools}</div></div>`;
+}
+const ownerBtn = (txt, act, extra = "") => S.canEdit ? `<button class="btn primary" data-act="${act}" ${extra}>${txt}</button>` : "";
+const byKind = k => S.posts.filter(p => p.kind === k).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+const exampleTag = p => (p.example ? ` <span class="example">Example</span>` : "") + (isNew(p) ? ` <span class="new">New</span>` : "");
+const stamp = p => p.createdAt || ((p.date || "0000-00-00") + "T00:00:00.000Z");
+const isNew = p => !!(S.following && S.prevSeen && stamp(p) > S.prevSeen);
+const KIND_TAB = { article: "writing", program: "programs", cad: "cad" };
+const KIND_LABEL = { article: "Article", program: "Program", cad: "CAD project" };
+
+/* ---------- follow ---------- */
+function renderFollow() {
+  const el = $("#follow"); if (!el) return;
+  const n = S.followers.length, cnt = `${n} follower${n === 1 ? "" : "s"}`;
+  if (!S.db || !S.uid) { el.innerHTML = n ? `<span class="label">${cnt}</span>` : ""; return; }
+  if (S.isOwner) {
+    el.innerHTML = n ? `<details id="flBox"><summary>${cnt}</summary><ul id="flList"><li>Loading names…</li></ul></details>` : `<span class="label">No followers yet</span>`;
+    const box = $("#flBox");
+    if (box) box.addEventListener("toggle", async () => {
+      if (!box.open || !S.userApi) return;
+      const ps = await S.userApi.profiles(S.followers);
+      const ul = $("#flList"); ul.innerHTML = "";
+      S.followers.forEach(id => { const li = document.createElement("li"); li.textContent = ps[id]?.name || "Someone"; ul.appendChild(li); });
+    });
+    return;
+  }
+  el.innerHTML = `<button class="btn ${S.following ? "following" : "primary"}" id="followBtn" aria-pressed="${S.following}">${S.following ? "Following ✓" : "+ Follow"}</button>
+    <span class="label">${cnt}</span><span class="hint" id="followMsg"></span>`;
+  $("#followBtn").onclick = toggleFollow;
+}
+async function toggleFollow() {
+  const btn = $("#followBtn"); btn.disabled = true;
+  const ref = S.db.doc("followers/" + S.uid), now = new Date().toISOString();
+  try {
+    if (S.following) { await ref.delete(); toast("Unfollowed"); }
+    else {
+      await ref.set({ since: now });
+      S.seenInit = true; S.prevSeen = now;
+      try { await S.db.doc(`data/users/${S.uid}/state`).set({ lastSeen: now }); } catch {}
+      toast("Following. New posts will be flagged each time you visit.");
+    }
+  } catch (e) {
+    btn.disabled = false;
+    $("#followMsg").textContent = e?.code === "invalid_argument" ? "To follow, ask the owner to share this page with you as a Contributor." : "Couldn't update. Try again.";
+  }
+}
+async function initSeen() {
+  if (S.seenInit || !S.following) return; S.seenInit = true;
+  const ref = S.db.doc(`data/users/${S.uid}/state`); let prev = null;
+  try { const s = await ref.get(); prev = s.exists ? s.data().lastSeen : null; } catch {}
+  S.prevSeen = prev || S.followSince || new Date().toISOString();
+  try { await ref.set({ lastSeen: new Date().toISOString() }); } catch {}
+  renderNews(); refresh(true);
+}
+function renderNews() {
+  const box = $("#news"), fresh = S.newsDismissed ? [] : S.posts.filter(isNew).sort((a, b) => stamp(b).localeCompare(stamp(a)));
+  document.querySelectorAll("nav.sheets button").forEach(b => {
+    b.querySelector(".cnt")?.remove();
+    const k = Object.keys(KIND_TAB).find(k => KIND_TAB[k] === b.dataset.tab);
+    const c = k ? fresh.filter(p => p.kind === k).length : 0;
+    if (c) { const s = document.createElement("span"); s.className = "cnt"; s.textContent = c; s.setAttribute("aria-label", c + " new"); b.querySelector(".n").appendChild(s); }
+  });
+  if (!fresh.length) { box.hidden = true; box.innerHTML = ""; return; }
+  box.hidden = false;
+  box.innerHTML = `<div class="news-head"><strong>${fresh.length} new since your last visit</strong><button class="btn" id="newsOk">Mark as read</button></div>
+    <ul>${fresh.slice(0, 8).map(p => `<li><button data-news="${esc(p._id)}"><span class="k">${KIND_LABEL[p.kind] || ""}</span><span class="ti">${esc(p.title || "Untitled")}</span><span class="label">${esc(p.date || "")}</span></button></li>`).join("")}</ul>`;
+  $("#newsOk").onclick = () => { S.newsDismissed = true; S.prevSeen = new Date().toISOString(); renderNews(); refresh(true); };
+  box.querySelectorAll("[data-news]").forEach(b => b.onclick = () => { const p = S.posts.find(x => x._id === b.dataset.news); if (p) { go(KIND_TAB[p.kind]); S.open = p._id; render(); } });
+}
+
+function loadingBlock(what) {
+  if (S.failed) return `<div class="empty"><strong>Storage isn't available in this view</strong>Saved ${what} appear once content/site.json loads.</div>`;
+  return `<div class="empty"><strong>Loading ${what}…</strong>Fetching saved entries.</div>`;
+}
+
+/* ---------- render ---------- */
+function render() {
+  const m = $("#main");
+  if (S.editing) return renderEditor(m);
+  ({ cv: renderCV, writing: renderWriting, programs: renderPrograms, cad: renderCAD })[S.tab](m);
+}
+
+function renderCV(m) {
+  const tools = ownerBtn("Edit CV", "edit-cv");
+  let body;
+  if (!S.ready) body = loadingBlock("CV");
+  else if (!S.cv || !S.cv.body) body = `<div class="empty"><strong>No CV yet</strong>${S.canEdit ? "Use “Edit CV” to write it in Markdown." : "Check back soon."}</div>`;
+  else body = `<article class="prose">${md(S.cv.body)}</article>`;
+  m.innerHTML = head("Curriculum Vitae", "Sheet 1 · Personal record", tools) + body;
+}
+
+function listSection(m, kind, title, label, newLabel, emptyMsg) {
+  const items = byKind(kind);
+  const tools = ownerBtn(newLabel, "new-" + kind);
+  let body;
+  if (!S.ready) body = loadingBlock(title.toLowerCase());
+  else if (!items.length) body = `<div class="empty"><strong>Nothing here yet</strong>${S.canEdit ? emptyMsg : "Check back soon."}</div>`;
+  else body = `<div class="entries">${items.map(p => `
+    <button class="entry" data-open="${esc(p._id)}">
+      <span class="d">${esc(p.date || "")}</span>
+      <span class="ti">${esc(p.title || "Untitled")}${exampleTag(p)}</span>
+      <span class="go">${kind === "program" ? "Open & run →" : "Read →"}</span>
+      ${p.summary ? `<span class="su">${esc(p.summary)}</span>` : ""}
+    </button>`).join("")}</div>`;
+  m.innerHTML = head(title, label, tools) + body;
+}
+
+function renderWriting(m) {
+  if (S.open) return renderArticle(m, S.posts.find(p => p._id === S.open));
+  listSection(m, "article", "Writing", "Sheet 2 · Articles & notes", "New article", "Write one with “New article”, or import a .md file.");
+}
+function ownerItemTools(p) {
+  return S.canEdit ? `<button class="btn" data-act="edit" data-id="${esc(p._id)}">Edit</button><button class="btn red" data-act="del" data-id="${esc(p._id)}">Delete</button>` : "";
+}
+function renderArticle(m, p) {
+  S.missing = !p;
+  if (!p) { m.innerHTML = `<button class="btn back" data-act="back">← Back</button><div class="empty"><strong>${S.ready ? 'This entry was removed' : 'Loading…'}</strong></div>`; return; }
+  m.innerHTML = `<button class="btn back" data-act="back">← All writing</button>
+    ${head(p.title || "Untitled", "Article", ownerItemTools(p))}
+    <div class="meta"><span>${esc(p.date || "")}</span>${p.tags?.length ? `<span>${esc(p.tags.join(" · "))}</span>` : ""}${p.example ? `<span class="example">Example post</span>` : ""}</div>
+    <article class="prose">${md(p.body)}</article>`;
+}
+
+/* ---------- programs ---------- */
+function renderPrograms(m) {
+  if (S.open) return renderProgram(m, S.posts.find(p => p._id === S.open));
+  listSection(m, "program", "Programs", "Sheet 3 · Python, run in the browser", "New program", "Add one with “New program”, or upload a .py file.");
+}
+function renderProgram(m, p) {
+  S.missing = !p;
+  if (!p) { m.innerHTML = `<button class="btn back" data-act="back">← Back</button><div class="empty"><strong>${S.ready ? 'This entry was removed' : 'Loading…'}</strong></div>`; return; }
+  m.innerHTML = `<button class="btn back" data-act="back">← All programs</button>
+    ${head(p.title || "Untitled", "Program · Python 3", ownerItemTools(p))}
+    ${p.summary || p.example ? `<div class="meta">${p.summary ? `<span>${esc(p.summary)}</span>` : ""}${p.example ? `<span class="example">Example program</span>` : ""}</div>` : ""}
+    ${p.notes ? `<div class="prose">${md(p.notes)}</div>` : ""}
+    <div class="runner">
+      <div class="pane">
+        <label class="label" for="code">Source · edits here are not saved</label>
+        <textarea id="code" class="code" spellcheck="false"></textarea>
+        <div class="tools">
+          <button class="btn primary" id="runBtn">▶ Run</button>
+          <button class="btn" id="stopBtn" disabled>■ Stop</button>
+          <button class="btn" id="resetBtn">Reset code</button>
+          <span class="status" id="runStatus">Ready</span>
+        </div>
+      </div>
+      <div class="pane">
+        <span class="label">Output</span>
+        <pre class="console" id="out"><span class="sys">Press Run to execute this program.</span></pre>
+        <label class="label" for="stdin">Input · one line per input() call</label>
+        <textarea id="stdin" class="stdin" spellcheck="false"></textarea>
+        <div id="turtle" class="turtle" hidden></div>
+      </div>
+    </div>
+    <p class="hint">Runs on Skulpt, a Python 3 interpreter in the browser: standard library basics, <code>math</code>, <code>random</code>, <code>turtle</code> and more. Packages such as NumPy and Matplotlib aren't available here.</p>`;
+  const code = $("#code"); code.value = p.code || ""; $("#stdin").value = p.stdin || "";
+  tabKeys(code);
+  $("#resetBtn").onclick = () => { code.value = p.code || ""; toast("Code reset"); };
+  $("#runBtn").onclick = () => runPython(code.value, $("#stdin").value);
+  $("#stopBtn").onclick = () => { stopFlag = true; };
+}
+function tabKeys(ta) {
+  ta.addEventListener("keydown", e => {
+    if (e.key === "Tab" && !e.shiftKey) { e.preventDefault(); const s = ta.selectionStart; ta.setRangeText("    ", s, ta.selectionEnd, "end"); }
+  });
+}
+
+let stopFlag = false, running = false;
+function runPython(src, stdinText) {
+  if (running) return;
+  const out = $("#out"), st = $("#runStatus"), tdiv = $("#turtle");
+  if (typeof Sk === "undefined") { out.innerHTML = `<span class="err">The Python interpreter didn't load. Reload the page and try again.</span>`; return; }
+  out.textContent = ""; stopFlag = false; running = true;
+  $("#runBtn").disabled = true; $("#stopBtn").disabled = false;
+  st.textContent = "Running…"; st.className = "status run";
+  const lines = stdinText.split("\n"); let li = 0;
+  const usesTurtle = /\bimport\s+turtle|\bfrom\s+turtle\s+import/.test(src);
+  tdiv.innerHTML = ""; tdiv.hidden = !usesTurtle;
+  const write = (t, cls) => { const s = document.createElement("span"); if (cls) s.className = cls; s.textContent = t; out.appendChild(s); out.scrollTop = out.scrollHeight; };
+  Sk.configure({
+    output: t => write(t),
+    read: f => { if (!Sk.builtinFiles || !Sk.builtinFiles.files[f]) throw new Error("File not found: '" + f + "'"); return Sk.builtinFiles.files[f]; },
+    inputfun: prompt => { if (prompt) write(prompt); const v = li < lines.length ? lines[li++] : ""; write(v + "\n", "sys"); return v; },
+    inputfunTakesPrompt: true,
+    __future__: Sk.python3,
+    execLimit: 30000, yieldLimit: 100,
+  });
+  (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = "turtle";
+  Sk.TurtleGraphics.width = Math.min(560, tdiv.clientWidth || 480); Sk.TurtleGraphics.height = 360;
+  const t0 = performance.now();
+  Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, src, true),
+    { "*": () => { if (stopFlag) throw new Sk.builtin.KeyboardInterrupt("Stopped by user"); } })
+    .then(() => { st.textContent = `Finished in ${((performance.now() - t0) / 1000).toFixed(2)} s`; st.className = "status ok"; },
+      err => { write("\n" + (err && err.toString ? err.toString() : String(err)) + "\n", "err"); st.textContent = stopFlag ? "Stopped" : "Error"; st.className = "status bad"; })
+    .finally(() => { running = false; const r = $("#runBtn"), s = $("#stopBtn"); if (r) r.disabled = false; if (s) s.disabled = true; });
+}
+
+/* ---------- CAD ---------- */
+function renderCAD(m) {
+  if (S.open) return renderCadDetail(m, S.posts.find(p => p._id === S.open));
+  const items = byKind("cad");
+  const tools = ownerBtn("New CAD project", "new-cad");
+  let body;
+  if (!S.ready) body = loadingBlock("projects");
+  else if (!items.length) body = `<div class="empty"><strong>No CAD projects yet</strong>${S.canEdit ? "Add one with “New CAD project”: an STL or OBJ model, renders and a drawing PDF." : "Check back soon."}</div>`;
+  else body = `<div class="cad-grid">${items.map(p => `
+    <button class="cad-card" data-open="${esc(p._id)}">
+      <div class="cad-thumb">${p.images?.length ? `<img src="${blob(p.images[0])}" alt="" loading="lazy">` : `<span class="ph">${p.model ? "3D model · " + esc((p.model.format || "").toUpperCase()) + "<br>Open to orbit" : "No preview"}</span>`}</div>
+      <div class="body"><span class="label">${esc(p.date || "")}${p.software ? " · " + esc(p.software) : ""}</span><span class="ti">${esc(p.title || "Untitled")}${exampleTag(p)}</span>${p.summary ? `<span class="su">${esc(p.summary)}</span>` : ""}</div>
+    </button>`).join("")}</div>`;
+  m.innerHTML = head("CAD Portfolio", "Sheet 4 · Models, renders, drawings", tools) + body;
+}
+
+function renderCadDetail(m, p) {
+  S.missing = !p;
+  if (!p) { m.innerHTML = `<button class="btn back" data-act="back">← Back</button><div class="empty"><strong>${S.ready ? 'This entry was removed' : 'Loading…'}</strong></div>`; return; }
+  m.innerHTML = `<button class="btn back" data-act="back">← All projects</button>
+    ${head(p.title || "Untitled", "CAD project", ownerItemTools(p))}
+    <div class="cad-detail">
+      <div class="pane">
+        ${p.model ? `<div class="viewer" id="viewer"><div class="msg" id="vmsg">Loading model…</div><div class="hud" id="hud"></div></div>
+        <div class="tools"><button class="btn" id="vReset">Reset view</button><button class="btn" id="vWire" aria-pressed="false">Wireframe</button><button class="btn" id="vSpin" aria-pressed="false">Auto-rotate</button></div>
+        <p class="hint">Drag to orbit, scroll or pinch to zoom, right-drag to pan.</p>` : `<div class="empty"><strong>No 3D model attached</strong>Renders and drawings are shown below.</div>`}
+      </div>
+      <dl class="spec">
+        <div><dt>Project</dt><dd>${esc(p.title || "")}</dd></div>
+        <div><dt>Date</dt><dd>${esc(p.date || "")}</dd></div>
+        <div><dt>Software</dt><dd>${esc(p.software || "—")}</dd></div>
+        <div><dt>Model</dt><dd>${p.model ? esc(p.model.name || p.model.format) : "—"}</dd></div>
+        <div><dt>Envelope</dt><dd id="envelope">${p.model ? "measuring…" : "—"}</dd></div>
+        <div><dt>Facets</dt><dd id="facets">${p.model ? "…" : "—"}</dd></div>
+        <div><dt>Drawing</dt><dd>${p.drawing ? `<a href="${blob(p.drawing.path || p.drawing.id)}" target="_blank" rel="noopener">${esc(p.drawing.name || "Open PDF")}</a>` : "—"}</dd></div>
+      </dl>
+    </div>
+    ${p.example ? `<div class="meta"><span class="example">Example project</span></div>` : ""}
+    ${p.body ? `<div class="prose">${md(p.body)}</div>` : ""}
+    ${p.images?.length ? `<span class="label">Renders</span><div class="gallery">${p.images.map(id => `<figure><a href="${blob(id)}" target="_blank" rel="noopener"><img src="${blob(id)}" alt="Render of ${esc(p.title || "project")}" loading="lazy"></a></figure>`).join("")}</div>` : ""}`;
+  if (p.model) startViewer(p.model);
+}
+
+let V = null;
+function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim() || "#888"; }
+function stopViewer() {
+  if (!V) return;
+  cancelAnimationFrame(V.raf); V.ro?.disconnect(); V.controls?.dispose(); V.renderer?.dispose();
+  V.scene?.traverse(o => { o.geometry?.dispose?.(); if (o.material) [].concat(o.material).forEach(mt => mt.dispose?.()); });
+  V = null;
+}
+function b64ToBuf(b64) { const bin = atob(b64); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u.buffer; }
+
+async function startViewer(model) {
+  stopViewer();
+  const host = $("#viewer"), msg = $("#vmsg");
+  if (typeof THREE === "undefined" || !THREE.OrbitControls) { msg.textContent = "The 3D viewer didn't load. Reload the page to try again."; return; }
+  let obj;
+  try {
+    const path = model.path || model.id;
+    const fmt = (model.format || (path.match(/\.(\w+)$/) || [, "stl"])[1]).toLowerCase();
+    const res = await fetch(blob(path)); if (!res.ok) throw new Error("HTTP " + res.status);
+    const mat = new THREE.MeshStandardMaterial({ color: new THREE.Color(cssVar("--accent")), metalness: .15, roughness: .55 });
+    if (fmt === "obj") {
+      obj = new THREE.OBJLoader().parse(await res.text());
+      obj.traverse(o => { if (o.isMesh) { o.material = mat; o.geometry.computeVertexNormals(); } });
+    } else {
+      const g = new THREE.STLLoader().parse(await res.arrayBuffer());
+      g.computeVertexNormals(); obj = new THREE.Mesh(g, mat);
+    }
+  } catch (e) { if ($("#vmsg")) $("#vmsg").textContent = "This model couldn't be loaded (" + e.message + ")."; return; }
+  if (!$("#viewer") || $("#viewer") !== host) return;
+  msg.remove();
+
+  const scene = new THREE.Scene();
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  host.prepend(renderer.domElement);
+  const cam = new THREE.PerspectiveCamera(40, 1, .1, 100000);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, .9));
+  const dl = new THREE.DirectionalLight(0xffffff, .8); dl.position.set(1, 2, 1.5); scene.add(dl);
+  const dl2 = new THREE.DirectionalLight(0xffffff, .35); dl2.position.set(-1.5, -.5, -1); scene.add(dl2);
+
+  // Z-up CAD convention → three's Y-up
+  obj.rotation.x = -Math.PI / 2;
+  const pivot = new THREE.Group(); pivot.add(obj); scene.add(pivot);
+  pivot.updateMatrixWorld(true);
+  const box = new THREE.Box3().setFromObject(pivot), size = box.getSize(new THREE.Vector3()), ctr = box.getCenter(new THREE.Vector3());
+  obj.position.sub(new THREE.Vector3(ctr.x, box.min.y, ctr.z).applyAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI / 2));
+  pivot.updateMatrixWorld(true);
+  const box2 = new THREE.Box3().setFromObject(pivot);
+  const r = size.length() / 2 || 1;
+  const grid = new THREE.GridHelper(Math.ceil(r * 3 / 10) * 10 || 10, 20, new THREE.Color(cssVar("--ink-2")), new THREE.Color(cssVar("--rule")));
+  grid.position.y = box2.min.y; scene.add(grid);
+
+  const controls = new THREE.OrbitControls(cam, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = .08; controls.autoRotateSpeed = 1.6;
+  const target = box2.getCenter(new THREE.Vector3());
+  const home = () => { cam.position.copy(target).add(new THREE.Vector3(r * 1.6, r * 1.1, r * 1.9)); cam.near = r / 100; cam.far = r * 100; cam.updateProjectionMatrix(); controls.target.copy(target); controls.update(); };
+  home();
+
+  // dimensions in model units (assumed mm), reported in CAD axes X / Y / Z
+  let tris = 0; obj.traverse(o => { if (o.isMesh) tris += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3; });
+  const f = n => n >= 100 ? n.toFixed(1) : n.toFixed(2);
+  const env = `${f(size.x)} × ${f(size.z)} × ${f(size.y)} mm`;
+  $("#envelope").textContent = env; $("#facets").textContent = Math.round(tris).toLocaleString("en-GB");
+  $("#hud").innerHTML = `<span>X ${f(size.x)}</span><span>Y ${f(size.z)}</span><span>Z ${f(size.y)}</span><span>${Math.round(tris).toLocaleString("en-GB")} facets</span>`;
+
+  const resize = () => { const w = host.clientWidth, h = host.clientHeight; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); };
+  const ro = new ResizeObserver(resize); ro.observe(host); resize();
+  V = { scene, renderer, controls, ro, raf: 0 };
+  const loop = () => { V.raf = requestAnimationFrame(loop); controls.update(); renderer.render(scene, cam); };
+  loop();
+
+  $("#vReset").onclick = home;
+  $("#vWire").onclick = e => { const on = e.currentTarget.getAttribute("aria-pressed") !== "true"; e.currentTarget.setAttribute("aria-pressed", on); e.currentTarget.style.background = on ? "var(--code-bg)" : ""; obj.traverse(o => { if (o.isMesh) o.material.wireframe = on; }); };
+  $("#vSpin").onclick = e => { const on = e.currentTarget.getAttribute("aria-pressed") !== "true"; e.currentTarget.setAttribute("aria-pressed", on); e.currentTarget.style.background = on ? "var(--code-bg)" : ""; controls.autoRotate = on; };
+}
+
+/* ---------- editors ---------- */
+function renderEditor(m) {
+  const { kind, id } = S.editing;
+  const p = id ? S.posts.find(x => x._id === id) || {} : {};
+  if (kind === "cv") {
+    const cv = S.cv || {};
+    m.innerHTML = head("Edit CV", "Owner · revision", `<span class="owner-tag">Editing</span>`) + `
+    <form class="ed" id="edForm">
+      <div class="row2">
+        <div class="field"><label class="label" for="f-name">Name</label><input type="text" id="f-name" value="${esc(cv.name || "")}"></div>
+        <div class="field"><label class="label" for="f-disc">Discipline (title block)</label><input type="text" id="f-disc" value="${esc(cv.discipline || "")}"></div>
+      </div>
+      <div class="field"><label class="label" for="f-tag">Tagline</label><input type="text" id="f-tag" value="${esc(cv.tagline || "")}"></div>
+      <div class="row2">
+        <div class="field"><label class="label" for="f-email">Email</label><input type="text" id="f-email" value="${esc(cv.email || "")}"></div>
+        <div class="field"><label class="label" for="f-link">Link (LinkedIn, GitHub…)</label><input type="text" id="f-link" value="${esc(cv.link || "")}"></div>
+      </div>
+      <div class="field"><label class="label" for="f-body">CV · Markdown</label><textarea id="f-body" class="tall">${esc(cv.body || "")}</textarea>
+        <span class="hint"># Heading, **bold**, - bullet list. Use ### for each role or qualification.</span></div>
+      ${formButtons()}
+    </form>`;
+  } else if (kind === "article") {
+    m.innerHTML = head(id ? "Edit article" : "New article", "Owner · Writing", `<span class="owner-tag">Editing</span>`) + `
+    <form class="ed" id="edForm">
+      <div class="file-row"><label class="btn" for="f-import">Import .md file</label><input type="file" id="f-import" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden><span class="hint">Fills the title and body from the file.</span></div>
+      <div class="row2">
+        <div class="field"><label class="label" for="f-title">Title</label><input type="text" id="f-title" required value="${esc(p.title || "")}"></div>
+        <div class="field"><label class="label" for="f-date">Date</label><input type="date" id="f-date" value="${esc(p.date || today())}"></div>
+      </div>
+      <div class="field"><label class="label" for="f-sum">One-line summary</label><input type="text" id="f-sum" value="${esc(p.summary || "")}"></div>
+      <div class="field"><label class="label" for="f-tags">Tags, comma separated</label><input type="text" id="f-tags" value="${esc((p.tags || []).join(", "))}"></div>
+      <div class="field"><label class="label" for="f-body">Body · Markdown</label><textarea id="f-body" class="tall">${esc(p.body || "")}</textarea></div>
+      ${formButtons()}
+    </form>`;
+    $("#f-import").onchange = async e => {
+      const file = e.target.files[0]; if (!file) return; const txt = await file.text();
+      const h = txt.match(/^#\s+(.+)$/m);
+      if (!$("#f-title").value) $("#f-title").value = h ? h[1].trim() : file.name.replace(/\.\w+$/, "");
+      $("#f-body").value = h ? txt.replace(h[0], "").trimStart() : txt; toast("Imported " + file.name);
+    };
+  } else if (kind === "program") {
+    m.innerHTML = head(id ? "Edit program" : "New program", "Owner · Programs", `<span class="owner-tag">Editing</span>`) + `
+    <form class="ed" id="edForm">
+      <div class="file-row"><label class="btn" for="f-import">Upload .py file</label><input type="file" id="f-import" accept=".py,text/x-python,text/plain" hidden><span class="hint">Loads the source into the editor below.</span></div>
+      <div class="row2">
+        <div class="field"><label class="label" for="f-title">Title</label><input type="text" id="f-title" required value="${esc(p.title || "")}"></div>
+        <div class="field"><label class="label" for="f-date">Date</label><input type="date" id="f-date" value="${esc(p.date || today())}"></div>
+      </div>
+      <div class="field"><label class="label" for="f-sum">One-line summary</label><input type="text" id="f-sum" value="${esc(p.summary || "")}"></div>
+      <div class="field"><label class="label" for="f-notes">Notes · Markdown, optional</label><textarea id="f-notes">${esc(p.notes || "")}</textarea></div>
+      <div class="field"><label class="label" for="f-code">Source · Python 3</label><textarea id="f-code" class="tall" spellcheck="false">${esc(p.code || "")}</textarea></div>
+      <div class="field"><label class="label" for="f-stdin">Default input, optional</label><textarea id="f-stdin" class="stdin" spellcheck="false">${esc(p.stdin || "")}</textarea></div>
+      ${formButtons()}
+    </form>`;
+    tabKeys($("#f-code"));
+    $("#f-import").onchange = async e => {
+      const file = e.target.files[0]; if (!file) return; $("#f-code").value = await file.text();
+      if (!$("#f-title").value) $("#f-title").value = file.name.replace(/\.py$/i, "").replace(/[_-]+/g, " ");
+      toast("Loaded " + file.name);
+    };
+  } else if (kind === "cad") {
+    const draft = S.cadDraft = { model: p.model || null, images: [...(p.images || [])], drawing: p.drawing || null };
+    m.innerHTML = head(id ? "Edit CAD project" : "New CAD project", "Owner · CAD", `<span class="owner-tag">Editing</span>`) + `
+    <form class="ed" id="edForm">
+      ${S.assets ? "" : `<div class="notice bad">File uploads aren't available in this view, so you can edit text only.</div>`}
+      <div class="row2">
+        <div class="field"><label class="label" for="f-title">Project title</label><input type="text" id="f-title" required value="${esc(p.title || "")}"></div>
+        <div class="field"><label class="label" for="f-date">Date</label><input type="date" id="f-date" value="${esc(p.date || today())}"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label class="label" for="f-sum">One-line summary</label><input type="text" id="f-sum" value="${esc(p.summary || "")}"></div>
+        <div class="field"><label class="label" for="f-sw">Software</label><input type="text" id="f-sw" placeholder="SolidWorks, Fusion 360, Onshape…" value="${esc(p.software || "")}"></div>
+      </div>
+      <div class="field"><label class="label" for="f-body">Design notes · Markdown</label><textarea id="f-body">${esc(p.body || "")}</textarea></div>
+      <div class="field"><span class="label">3D model · STL or OBJ, under 15 MB</span>
+        <div class="file-row"><label class="btn" for="f-model">Choose model</label><input type="file" id="f-model" accept=".stl,.obj" hidden ${S.assets ? "" : "disabled"}><div class="chips" id="c-model"></div></div>
+        <span class="hint">Export STEP or native parts as STL (binary is fine) in millimetres.</span></div>
+      <div class="field"><span class="label">Renders and photos · PNG, JPEG, WebP</span>
+        <div class="file-row"><label class="btn" for="f-imgs">Add images</label><input type="file" id="f-imgs" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden ${S.assets ? "" : "disabled"}><div class="chips" id="c-imgs"></div></div></div>
+      <div class="field"><span class="label">Engineering drawing · PDF</span>
+        <div class="file-row"><label class="btn" for="f-pdf">Choose PDF</label><input type="file" id="f-pdf" accept="application/pdf,.pdf" hidden ${S.assets ? "" : "disabled"}><div class="chips" id="c-pdf"></div></div></div>
+      <span class="status" id="upStatus"></span>
+      ${formButtons()}
+    </form>`;
+    const chips = () => {
+      $("#c-model").innerHTML = draft.model ? `<span class="chip">${esc(draft.model.name || "model")}<button type="button" data-rm="model" aria-label="Remove model">×</button></span>` : "";
+      $("#c-imgs").innerHTML = draft.images.map((im, i) => `<span class="chip"><img src="${blob(im)}" alt="" style="width:28px;height:21px;object-fit:cover">#${i + 1}<button type="button" data-rm="img" data-i="${i}" aria-label="Remove image ${i + 1}">×</button></span>`).join("");
+      $("#c-pdf").innerHTML = draft.drawing ? `<span class="chip">${esc(draft.drawing.name)}<button type="button" data-rm="pdf" aria-label="Remove drawing">×</button></span>` : "";
+    };
+    chips();
+    $("#edForm").addEventListener("click", e => { const b = e.target.closest("[data-rm]"); if (!b) return;
+      if (b.dataset.rm === "model") draft.model = null; else if (b.dataset.rm === "pdf") draft.drawing = null; else draft.images.splice(+b.dataset.i, 1); chips(); });
+    const st = $("#upStatus");
+    const up = async (blobv, type, label) => {
+      st.textContent = "Uploading " + label + "…"; st.className = "status run";
+      try { const r = await S.assets.upload(blobv, { type }); st.textContent = "Uploaded " + label; st.className = "status ok"; return r.id; }
+      catch (e) { st.textContent = uploadErr(e, label); st.className = "status bad"; return null; }
+    };
+    $("#f-model").onchange = async e => {
+      const file = e.target.files[0]; if (!file) return; e.target.value = "";
+      const fmt = /\.obj$/i.test(file.name) ? "obj" : "stl";
+      const buf = new Uint8Array(await file.arrayBuffer()); let bin = ""; for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode.apply(null, buf.subarray(i, i + 0x8000));
+      const pack = new Blob([JSON.stringify({ format: fmt, name: file.name, b64: btoa(bin) })], { type: "application/json" });
+      const id = await up(pack, "application/json", file.name); if (id) { draft.model = { id, format: fmt, name: file.name }; chips(); }
+    };
+    $("#f-imgs").onchange = async e => {
+      for (const file of [...e.target.files]) { const id = await up(file, file.type || "image/png", file.name); if (id) { draft.images.push(id); chips(); } }
+      e.target.value = "";
+    };
+    $("#f-pdf").onchange = async e => {
+      const file = e.target.files[0]; if (!file) return; e.target.value = "";
+      const id = await up(file, "application/pdf", file.name); if (id) { draft.drawing = { id, name: file.name }; chips(); }
+    };
+  }
+  $("#edForm").onsubmit = e => { e.preventDefault(); save(); };
+  $("#cancelEd").onclick = () => { S.editing = null; render(); };
+}
+const formButtons = () => `<div class="tools"><button class="btn primary" type="submit" id="saveEd">Save</button><button class="btn" type="button" id="cancelEd">Cancel</button><span class="status" id="saveStatus"></span></div>`;
+function uploadErr(e, label) {
+  const c = e && e.code;
+  if (c === "too_large") return label + " is too large (limit 20 MB; models must be under about 15 MB).";
+  if (c === "unsupported_type") return label + " isn't a supported file type.";
+  if (c === "quota_or_state") return "Storage for this site is full. Remove unused files and try again.";
+  if (c === "rate_limited") return "Uploading too quickly. Wait a moment, then try again.";
+  return "Couldn't upload " + label + ". Try again.";
+}
+
+async function save() {
+  const { kind, id } = S.editing; const st = $("#saveStatus"); const v = s => ($(s)?.value ?? "").trim();
+  $("#saveEd").disabled = true; st.textContent = "Saving…"; st.className = "status run";
+  try {
+    if (kind === "cv") {
+      const doc = { name: v("#f-name"), discipline: v("#f-disc"), tagline: v("#f-tag"), email: v("#f-email"), link: v("#f-link"), body: $("#f-body").value, updated: today() };
+      await S.db.doc("site/cv").set(doc); S.editing = null; toast("CV saved"); go("cv"); return;
+    }
+    const base = id ? { ...S.posts.find(p => p._id === id) } : { kind };
+    delete base._id; delete base.example;
+    Object.assign(base, { title: v("#f-title") || "Untitled", date: v("#f-date") || today(), summary: v("#f-sum") });
+    if (kind === "article") Object.assign(base, { body: $("#f-body").value, tags: v("#f-tags").split(",").map(s => s.trim()).filter(Boolean) });
+    if (kind === "program") Object.assign(base, { code: $("#f-code").value, stdin: $("#f-stdin").value, notes: $("#f-notes").value });
+    if (kind === "cad") Object.assign(base, { body: $("#f-body").value, software: v("#f-sw"), model: S.cadDraft.model, images: S.cadDraft.images, drawing: S.cadDraft.drawing });
+    let newId = id;
+    if (id) await S.db.collection("posts").doc(id).set(base);
+    else { base.createdAt = new Date().toISOString(); newId = (await S.db.collection("posts").add(base)).id; }
+    const tab = { article: "writing", program: "programs", cad: "cad" }[kind];
+    toast("Saved"); S.editing = null; S.tab = tab; S.open = newId; render();
+  } catch (e) {
+    st.className = "status bad";
+    st.textContent = e?.code === "invalid_argument" ? "Couldn't save: only the site owner can make changes, or the entry is over 256 KB." : e?.code === "quota_exceeded" ? "Storage is full. Delete old entries and try again." : "Couldn't save. Check your connection and try again.";
+    $("#saveEd").disabled = false;
+  }
+}
+
+/* ---------- delegated actions ---------- */
+let armed = null;
+$("#main").addEventListener("click", async e => {
+  const o = e.target.closest("[data-open]");
+  if (o) { S.open = o.dataset.open; render(); window.scrollTo({ top: 0 }); return; }
+  const b = e.target.closest("[data-act]"); if (!b) return;
+  const act = b.dataset.act;
+  if (act === "back") { stopViewer(); S.open = null; render(); return; }
+  if (act === "edit-cv") { S.editing = { kind: "cv" }; render(); return; }
+  if (act.startsWith("new-")) { S.editing = { kind: act.slice(4), id: null }; render(); return; }
+  if (act === "edit") { const p = S.posts.find(x => x._id === b.dataset.id); stopViewer(); S.editing = { kind: p.kind, id: p._id }; render(); return; }
+  if (act === "del") {
+    if (armed !== b) { armed = b; b.classList.add("armed"); b.textContent = "Confirm delete"; setTimeout(() => { if (armed === b) { armed = null; b.classList.remove("armed"); b.textContent = "Delete"; } }, 4000); return; }
+    armed = null; const id = b.dataset.id; const p = S.posts.find(x => x._id === id);
+    try {
+      await S.db.collection("posts").doc(id).delete();
+      if (S.assets && p) { const ids = [p.model?.id, p.drawing?.id, ...(p.images || [])].filter(Boolean); for (const a of ids) { try { await S.assets.delete(a); } catch {} } }
+      stopViewer(); S.open = null; toast("Deleted"); render();
+    } catch { toast("Couldn't delete. Try again."); }
+  }
+});
+
+function refresh() { if (S.editing) return; if (!S.open || S.missing) render(); }
+
+/* ---------- boot ---------- */
+const startTab = location.hash.slice(1);
+go(TABS.includes(startTab) ? startTab : "cv");
+renderHeader();
+
+(async () => {
+  try {
+    const res = await fetch("content/site.json", { cache: "no-cache" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    S.cv = data.cv || null;
+    S.posts = (data.posts || []).map((p, i) => ({ _id: p.id || "p" + i, ...p }));
+    S.ready = true;
+    $("#fState").textContent = "Last updated " + (S.posts.map(p => p.date || "").sort().pop() || "");
+  } catch (e) {
+    S.failed = true;
+    $("#fState").textContent = "Couldn't load content/site.json. If you opened this file directly, view it through the published site instead.";
+  }
+  renderHeader(); render();
+})();
+})();
+</script>
+
+</body>
+</html>

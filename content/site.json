@@ -1,0 +1,53 @@
+{
+  "cv": {
+    "body": "## Profile\n\nSecond-year Biomedical Engineering student at King's College London with research experience in brain–computer interfaces. Interested in neural engineering, medical devices and computational modelling.\n\n## Education\n\n### BEng Biomedical Engineering — King's College London\n*2025 – present · Year 2*\n\n- Modules include Mechanics for Biomedical Engineering and Computational Statistics\n- Extensive MATLAB-based data analysis across coursework\n\n## Research experience\n\n### Research Intern — Institute of Biomedical Engineering, Chinese Academy of Medical Sciences & Peking Union Medical College\n\n- Research on brain–computer interfaces and biomedical barriers\n- *Add methods, tools and outcomes here*\n\n## Leadership\n\n### PAL (Peer Assisted Learning) Leader — King's College London\n\n- Lead peer study sessions for students in the year below\n\n## Skills\n\n- **Computing:** MATLAB, Python\n- **CAD:** *add your packages, e.g. SolidWorks, Fusion 360*\n- **Languages:** *add yours*\n",
+    "discipline": "Biomedical Eng.",
+    "email": "",
+    "link": "",
+    "name": "Luke",
+    "tagline": "BEng Biomedical Engineering · King's College London"
+  },
+  "posts": [
+    {
+      "id": "example-article",
+      "body": "This is an **example article** so you can see how posts look. Edit or delete it from the buttons above.\n\n## The short version\n\nA fracture fixation plate carries bending load across the fracture site. Screw heads that stand proud of the plate irritate soft tissue, so the holes are countersunk to let the head sit flush.\n\n## A quick bending check\n\nFor a rectangular plate section of width *b* and thickness *h*, the second moment of area is\n\n```\nI = b·h³ / 12\n```\n\nFor a 12 × 3.2 mm plate that gives about 32.8 mm⁴, which is why thickness, not width, dominates stiffness.\n\n> Write your articles in Markdown. Use “Import .md file” to bring in notes you've already written.\n",
+      "date": "2026-10-09",
+      "example": true,
+      "kind": "article",
+      "summary": "A short example post. Edit it or delete it once you've written your own.",
+      "tags": [
+        "mechanics",
+        "implants"
+      ],
+      "title": "Why a bone plate has countersunk holes"
+    },
+    {
+      "id": "example-windkessel",
+      "code": "import math\n\n# Two-element Windkessel: C dP/dt = Q(t) - P/R\nR = 1.0      # peripheral resistance, mmHg·s/mL\nC = 1.5      # arterial compliance, mL/mmHg\n\nhr = float(input(\"Heart rate (bpm): \") or 72)\nT = 60.0 / hr            # cardiac period, s\nTs = 0.35 * T            # systolic ejection time, s\nSV = 70.0                # stroke volume, mL\nQ0 = SV * math.pi / (2 * Ts)   # peak flow so the half-sine integrates to SV\n\ndef inflow(t):\n    tc = t % T\n    return Q0 * math.sin(math.pi * tc / Ts) if tc < Ts else 0.0\n\ndt = 0.001\nP = 80.0\nt = 0.0\nbeats = 8\nlast = []\nwhile t < beats * T:\n    P += dt * (inflow(t) - P / R) / C\n    if t > (beats - 1) * T:\n        last.append(P)\n    t += dt\n\nprint(\"Final beat: systolic %.1f mmHg, diastolic %.1f mmHg\" % (max(last), min(last)))\nprint(\"Mean arterial pressure %.1f mmHg\\n\" % (sum(last) / len(last)))\n\n# ASCII trace of the last beat\nlo, hi = min(last), max(last)\nstep = max(1, len(last) // 24)\nfor i in range(0, len(last), step):\n    n = int(40 * (last[i] - lo) / (hi - lo + 1e-9))\n    print(\"%5.0f ms |%s\" % (i * dt * 1000, \"#\" * n))\n",
+      "date": "2026-10-09",
+      "example": true,
+      "kind": "program",
+      "notes": "Models the arterial tree as a compliance **C** in parallel with peripheral resistance **R**: `C·dP/dt = Q(t) − P/R`. Change the heart rate in the input box and press Run.",
+      "stdin": "72",
+      "summary": "Simulates aortic pressure from a pulsatile inflow. Example program.",
+      "title": "Two-element Windkessel model"
+    },
+    {
+      "id": "example-bone-plate",
+      "body": "An **example project** showing how CAD entries look. Replace it with your own: upload an STL or OBJ export, add renders, and attach the drawing PDF.\n\n- 84 × 12 × 3.2 mm plate, rounded ends\n- Six Ø3.8 mm clearance holes at 13 mm pitch with countersinks",
+      "date": "2026-10-09",
+      "drawing": null,
+      "example": true,
+      "images": [],
+      "kind": "cad",
+      "model": {
+        "path": "models/bone-plate-6h.stl",
+        "format": "stl",
+        "name": "bone-plate-6h.stl"
+      },
+      "software": "Python · trimesh",
+      "summary": "Straight bone plate with countersunk 3.5 mm screw holes. Example project.",
+      "title": "6-hole fixation plate"
+    }
+  ]
+}
